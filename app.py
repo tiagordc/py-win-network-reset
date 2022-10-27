@@ -43,10 +43,7 @@ class InterfaceWindow(QWidget):
 
     def switchInterface(self, item):
         interface = item.text()
-        if item.__state__:
-            QProcess.execute('netsh', ['interface', 'set', 'interface', interface, 'disable'])
-        else:
-            QProcess.execute('netsh', ['interface', 'set', 'interface', interface, 'enable'])
+        QProcess.execute('netsh', ['interface', 'set', 'interface', interface, 'disable' if item.__state__ else 'enable'])
         self.updateList()
 
 if __name__ == '__main__':
