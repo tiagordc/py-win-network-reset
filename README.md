@@ -2,6 +2,8 @@
 
 Simple GUI tool to reset Windows network adapters.
 
+Lazy man's way to reset network adapters.
+
 ## Build
 
 ```console

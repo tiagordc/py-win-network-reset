@@ -10,14 +10,6 @@ class InterfaceWindow(QWidget):
         super().__init__()
         self.initUI()
 
-    def switchInterface(self, item):
-        interface = item.text()
-        if item.__state__:
-            QProcess.execute('netsh', ['interface', 'set', 'interface', interface, 'disable'])
-        else:
-            QProcess.execute('netsh', ['interface', 'set', 'interface', interface, 'enable'])
-        self.updateList()
-
     def initUI(self):
         self.setWindowTitle('Network Interfaces')
         self.setGeometry(200, 200, 400, 400)
@@ -52,6 +44,14 @@ class InterfaceWindow(QWidget):
                 item.setForeground(QColor(0, 160, 0) if item.__state__ else QColor(255, 0, 0))
                 self.list.addItem(item)
         self.interfaces = interfaces          
+
+    def switchInterface(self, item):
+        interface = item.text()
+        if item.__state__:
+            QProcess.execute('netsh', ['interface', 'set', 'interface', interface, 'disable'])
+        else:
+            QProcess.execute('netsh', ['interface', 'set', 'interface', interface, 'enable'])
+        self.updateList()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
