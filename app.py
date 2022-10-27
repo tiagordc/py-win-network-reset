@@ -24,10 +24,6 @@ class InterfaceWindow(QWidget):
         self.setLayout(layout)
         self.updateList()
 
-    def addItem(self):
-        list = self.findChild(QListWidget)
-        list.addItem('Item5')
-
     def updateList(self):
         self.list.clear()
         process = QProcess()
