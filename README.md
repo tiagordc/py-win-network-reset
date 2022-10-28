@@ -14,6 +14,6 @@ py -m pip install --upgrade pip
 pip install -r requirements.txt
 pip list --outdated
 
-pip install pyinstaller
+pyinstaller --name NetworkReset --paths ".\env\Lib\site-packages\PyQt5\Qt\bin" --clean --onefile --windowed app.py
 
 ```
