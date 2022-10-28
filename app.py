@@ -15,12 +15,15 @@ class InterfaceWindow(QWidget):
         self.setGeometry(200, 200, 400, 400)
         self.list = QListWidget()
         self.list.itemDoubleClicked.connect(self.switchInterface)
-        button = QPushButton('Refresh')
-        button.clicked.connect(self.updateList)
+        refresh = QPushButton('Refresh')
+        refresh.clicked.connect(self.updateList)
+        windows = QPushButton('View Connections')
+        windows.clicked.connect(lambda: QProcess.execute('control', ['ncpa.cpl']))
         layout = QVBoxLayout()
         layout.addWidget(QLabel('Double click to enable/disable:'))
         layout.addWidget(self.list)
-        layout.addWidget(button)
+        layout.addWidget(refresh)
+        layout.addWidget(windows)
         self.setLayout(layout)
         self.updateList()
 
@@ -30,7 +33,6 @@ class InterfaceWindow(QWidget):
         process.start('netsh', ['interface', 'show', 'interface'])
         process.waitForFinished()
         output = process.readAllStandardOutput().data().decode('utf-8').splitlines()[3:-1]
-        interfaces = {}
         for line in output:
             match = re.search(r"(\w+)\s{2,}(\w+)\s{2,}(\w+)\s{2,}(.*)", line, re.MULTILINE)
             if match:
@@ -39,7 +41,6 @@ class InterfaceWindow(QWidget):
                 item.__state__ = match.group(1) == 'Enabled'
                 item.setForeground(QColor(0, 160, 0) if item.__state__ else QColor(255, 0, 0))
                 self.list.addItem(item)
-        self.interfaces = interfaces          
 
     def switchInterface(self, item):
         interface = item.text()
